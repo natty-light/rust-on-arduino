@@ -19,9 +19,21 @@ fn main() -> ! {
      */
 
     let mut led = pins.d13.into_output();
+    let left_button = pins.d5.into_floating_input();
+    let right_button = pins.d6.into_floating_input();
 
+    led.set_low();
     loop {
-        led.toggle();
-        arduino_hal::delay_ms(1000);
+        let left_button_state = left_button.is_low();
+        let right_button_state: bool = right_button.is_low();
+        match left_button_state {
+            true => led.set_high(),
+            false => ()
+        }
+        match right_button_state {
+            true => led.set_high(),
+            false => ()
+        }
+
     }
 }
